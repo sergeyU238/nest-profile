@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: nest_user
+      POSTGRES_DB: curriculum-vitae
+      POSTGRES_PASSWORD: W-ya8dJBSJ2k123

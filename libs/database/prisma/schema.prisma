@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+
+  profileSkills   ProfileSkill[]
+  experiences     Experience[]
+  profileProjects ProfileProject[]
+}
+
+// skills
+model Skill {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  profileSkills    ProfileSkill[]
+  experienceSkills ExperienceSkill[]
+}
+
+model ProfileSkill {
+  id        Int @id @default(autoincrement())
+  profileId Int
+  skillId   Int
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  skill   Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, skillId])
+}
+
+model ExperienceSkill {
+  id           Int @id @default(autoincrement())
+  experienceId Int
+  skillId      Int
+
+  experience Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  skill      Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([experienceId, skillId])
+}
+
+// Experience
+model Experience {
+  id         Int @id @default(autoincrement())
+  companyId  Int
+  positionId Int
+  profileId  Int
+
+  company            Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  position           Position            @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  profile            Profile             @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  experienceProjects ExperienceProject[]
+  experienceSkills   ExperienceSkill[]
+
+  @@unique([companyId, positionId, profileId])
+}
+
+model Company {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  experiences Experience[]
+}
+
+model Position {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  experiences Experience[]
+}
+
+// projects
+model Project {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  profileProjects    ProfileProject[]
+  experienceProjects ExperienceProject[]
+}
+
+model ProfileProject {
+  id        Int @id @default(autoincrement())
+  projectId Int
+  profileId Int
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, projectId])
+}
+
+model ExperienceProject {
+  id           Int @id @default(autoincrement())
+  projectId    Int
+  experienceId Int
+
+  project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  experience Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+
+  @@unique([experienceId, projectId])
+}

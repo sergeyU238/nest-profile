@@ -1,14 +1,31 @@
 {
   "name": "@curriculum-vitae/source",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky",
+    "build:api": "nx run api:build",
+    "serve:api": "nx run api:serve",
+    "generate-prisma": "nx run database:generate-prisma",
+    "migrate-prisma": "nx run database:migrate-prisma",
+    "seed-prisma": "nx run database:seed-prisma",
+    "database-structure-update": "npm run generate-prisma && npm run migrate-prisma && npm run seed-prisma"
+  },
   "private": true,
   "dependencies": {
+    "@apollo/server": "^5.5.1",
+    "@nestjs/apollo": "^13.4.5",
     "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/cqrs": "^11.0.3",
+    "@nestjs/graphql": "^13.4.5",
     "@nestjs/platform-express": "^11.0.0",
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
     "axios": "^1.6.0",
+    "graphql": "^16.14.2",
+    "prisma": "^7.10.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.0"
   },
@@ -33,9 +50,11 @@
     "@types/node": "^22.0.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
+    "husky": "^9.1.7",
     "jest": "~30.3.0",
     "jest-environment-node": "~30.3.0",
     "jest-util": "~30.3.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "nx": "23.2.1",
     "prettier": "~3.6.2",
     "ts-jest": "^29.4.7",
@@ -48,6 +67,7 @@
     "webpack-dev-server": "^5.2.1"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "libs/*"
   ]
 }
