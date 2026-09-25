@@ -15,7 +15,10 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strict": true,
+    "strictPropertyInitialization": false,
     "target": "es2022",
-    "customConditions": ["@curriculum-vitae/source"]
+    "customConditions": ["@curriculum-vitae/source"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }
