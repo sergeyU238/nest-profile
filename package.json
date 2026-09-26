@@ -12,8 +12,8 @@
     "migrate-prisma:deploy": "nx run database:migrate-prisma-deploy",
     "database-structure-update": "npm run generate-prisma && npm run migrate-prisma && npm run seed-prisma",
     "database:deploy": "npm run generate-prisma && npm run migrate-prisma:deploy && npm run seed-prisma",
-    "build:production": "npm run database:deploy && npm run build:api",
-    "start:production": "node apps/api/dist/main.js"
+    "build": "npm run database:deploy && npm run build:api",
+    "start": "node apps/api/dist/main.js"
   },
   "private": true,
   "dependencies": {
