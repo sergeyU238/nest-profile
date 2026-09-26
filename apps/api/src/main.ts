@@ -12,9 +12,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  if (app.get(ConfigService).getOrThrow('NODE_ENV') === 'production') {
+  const requestUrl = app.get(ConfigService).get('REQUEST_URL');
+  if (requestUrl) {
     app.enableCors({
-      origin: 'https://nest-profile.relaxdev.ru',
+      origin: requestUrl,
       credentials: true,
     });
   }
