@@ -12,6 +12,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  if (app.get(ConfigService).getOrThrow('NODE_ENV') === 'production') {
+    app.enableCors({
+      origin: 'https://nest-profile.relaxdev.ru',
+      credentials: true,
+    });
+  }
   const port = app.get(ConfigService).getOrThrow('PORT');
   await app.listen(port);
   Logger.log(
